@@ -38,11 +38,16 @@ rMin=210
 rMax=255
 minBGR = np.array([bMin, gMin, rMin])
 maxBGR = np.array([bMax, gMax, rMax])
+snapped = False
 
 feed = PiRGBArray(camera, camera.resolution)
 stream = io.BytesIO()
 
 for rawFrame in camera.capture_continuous(feed, format="bgr", use_video_port=True):
+	if snapped:
+		cv2.destroyAllWindows()
+		break
+
 	frame = rawFrame.array
 	# empty = np.empty((1088,1920,3), dtype=np.uint8)
 	# camera.capture(imageBGR, 'bgr')
